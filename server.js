@@ -1,17 +1,13 @@
 require('dotenv').config();
 
-
-const express = require('express');
 const axios = require('axios');
-const app = express();
 
-const API_KEY = process.env.OPENWEATHER_API_KEY;
-const LATITUDE = process.env.LATITUDE;
-const LONGITUDE = process.env.LONGITUDE;
+const API_KEY = process.env.API_KEY;
+const LATITUDE = process.env.LAT;
+const LONGITUDE = process.env.LONG;
 
-app.get('/', async (req, res) => {
+async function fetchWeatherData() {
     try {
-       
         const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
             params: {
                 lat: LATITUDE,
@@ -20,12 +16,10 @@ app.get('/', async (req, res) => {
             }
         });
         
-        res.json(response.data);
+        console.log(response.data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error fetching weather data:", error.message);
     }
-});
+}
 
-app.listen(8080, () => {
-    console.log("Check Weather on port 8080");
-});
+fetchWeatherData();
