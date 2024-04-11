@@ -7,7 +7,7 @@ RUN npm install -g npm@10.5.2 && npm cache clean --force
 
 RUN npm install express@4.19.2
 
-RUN apk update && apk upgrade && apk add --no-cache openssl=1.1.1l-r0
+RUN apk update && apk upgrade && apk add --no-cache openssl>=1.1
 RUN apk add --no-cache tar=1.6.2.1
 
 COPY . .
