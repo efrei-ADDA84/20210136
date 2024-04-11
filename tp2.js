@@ -12,7 +12,6 @@ app.get('/', (req, res) => {
 
 app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
-    console.log("API_KEY:", process.env.API_KEY);
 
     if (!lat || !lon || !API_KEY) {
         
