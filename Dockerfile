@@ -2,7 +2,7 @@ FROM node:alpine3.19
 WORKDIR /weather-docker
 
 COPY package*.json ./
-RUN npm install -g npm@latest-10 && npm cache clean --force
+RUN npm install -g npm@10.5.2 && npm cache clean --force
 
 
 RUN npm install express
