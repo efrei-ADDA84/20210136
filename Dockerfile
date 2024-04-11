@@ -1,8 +1,11 @@
 FROM node:alpine3.19
 WORKDIR /weather-docker
-COPY .env .env
+
 COPY package*.json ./
 COPY . .
+
+ARG Apikey
+ENV API_KEY = $Apikey
 RUN npm install
 RUN apk add --no-cache tar
 RUN apk update && apk upgrade
