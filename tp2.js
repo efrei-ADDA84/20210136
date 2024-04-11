@@ -11,9 +11,9 @@ app.get('/', (req, res) => {
 
 app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
-    const API_KEY = process.env.apikey;
+    const API_KEY = process.env.API_KEY;
 
-    if (!lat || !lon) {
+    if (!lat || !lon || !API_KEY) {
         return res.status(400).send('Latitude and longitude are required.');
     }
 
