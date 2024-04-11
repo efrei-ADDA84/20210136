@@ -19,6 +19,9 @@ jobs:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_PASSWORD}}
      
+      - name: List directory contents
+        run: ls -la
+
       - name: Copy .env file
         run: |
           cp ./.env .
