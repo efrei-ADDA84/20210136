@@ -5,4 +5,5 @@ RUN npm install
 RUN apk update && apk upgrade
 RUN apk add openssl
 EXPOSE 8080
-CMD ["node", "server.js"]
+CMD ["node", "tp2.js"]
+
