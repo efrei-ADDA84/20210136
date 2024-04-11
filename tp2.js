@@ -7,8 +7,6 @@ console.log(process.env)
 const PORT = 8080;
 const API_KEY = process.env.API_KEY;
 
-console.log("API_KEY:", API_KEY);
-
 app.get('/', (req, res) => {
     res.send('Welcome to the Weather API !');
 });
@@ -17,7 +15,7 @@ app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
 
     if (!lat || !lon || !API_KEY) {
-        return res.status(400).send(`Latitude, longitude API Key are required. ${API_KEY}`);
+        return res.status(400).send(`Latitude, longitude are required.`);
     }
     try {
         const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
