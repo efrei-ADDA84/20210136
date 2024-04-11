@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+const PORT = 8080;
 const API_KEY = process.env.API_KEY;
+
 app.get('/', (req, res) => {
     res.send('Welcome to Weather API!');
 });
@@ -14,6 +15,7 @@ app.get('/weather', async (req, res) => {
     
 
     if (!lat || !lon || !API_KEY) {
+        console.log("API_KEY:", process.env.API_KEY);
         return res.status(400).send(`Latitude, longitude, and API Key: ${API_KEY}`);
     }
     try {
