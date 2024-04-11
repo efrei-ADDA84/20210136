@@ -20,7 +20,7 @@ Dans le cadre du TP, nous devions créer un wrapper qui retourne la météo d'un
 
 3.	Données Sensibles : J’ai mis en place un .env afin de stocker les données sensibles
 
-![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/6a484ff1-c6b6-4da0-b8a3-3c141a46c996)
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/a71a6c09-425c-4f3f-aa5c-3a21adc2365d)
 
 4.	Publication sur DockerHub : J'ai construit l'image Docker localement à l'aide du Dockerfile 
 
