@@ -16,7 +16,7 @@ app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
 
     if (!lat || !lon) {
-        return res.status(400).send('Latitude and longitude are required');
+        return res.status(400).send('Latitude and longitude are required.');
     }
 
     try {
