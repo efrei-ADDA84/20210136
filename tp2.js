@@ -6,8 +6,8 @@ app.get('/', (req, res) => {
     res.send('Hello You!');
 });
 
-app.get('/hello/:name', (req, res) => {
-    const name = req.params.name;
+app.get('/greet', (req, res) => {
+    const name = req.query.name || "You";
     res.send(`Hello, ${name}!`);
 });
 
