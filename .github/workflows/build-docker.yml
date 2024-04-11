@@ -20,8 +20,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        env:
-          API_KEY: ${{ secrets.API_KEY }}
         run: |
           docker build -t fannyc13/tp2-image:weather-image .
           docker push fannyc13/tp2-image:weather-image
