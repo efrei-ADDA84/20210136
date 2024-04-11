@@ -8,7 +8,7 @@ const API_KEY = process.env.API_KEY;
 console.log("API_KEY:", API_KEY);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the Weather API!');
+    res.send('Welcome to the Weather API !');
 });
 
 app.get('/weather', async (req, res) => {
