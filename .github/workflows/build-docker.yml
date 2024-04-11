@@ -23,3 +23,10 @@ jobs:
         run: |
           docker build -t fannyc13/tp2-image:weather-image .
           docker push fannyc13/tp2-image:weather-image
+          
+      - name: Copy .env file
+        run: cp .env $GITHUB_WORKSPACE
+
+      # Add a step to verify the .env file has been copied
+      - name: Verify .env file
+        run: ls $GITHUB_WORKSPACE/.env
