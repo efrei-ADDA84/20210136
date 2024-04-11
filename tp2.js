@@ -1,7 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+require('dotenv').config()
 
+console.log(process.env)
 const PORT = 8080;
 const API_KEY = process.env.API_KEY;
 
