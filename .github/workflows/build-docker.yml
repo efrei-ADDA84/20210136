@@ -27,6 +27,5 @@ jobs:
       - name: Copy .env file
         run: cp .env $GITHUB_WORKSPACE
 
-      # Add a step to verify the .env file has been copied
       - name: Verify .env file
         run: ls $GITHUB_WORKSPACE/.env
