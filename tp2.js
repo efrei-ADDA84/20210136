@@ -6,14 +6,12 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the Weather API!');
+    res.send('Welcome to Weather API!');
 });
-
-
-const API_KEY = process.env.API_KEY;
 
 app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
+    const API_KEY = process.env.API_KEY;
 
     if (!lat || !lon) {
         return res.status(400).send('Latitude and longitude are required.');
