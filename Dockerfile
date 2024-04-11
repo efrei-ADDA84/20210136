@@ -5,5 +5,6 @@ RUN npm install
 RUN apk add --no-cache tar
 RUN apk update && apk upgrade
 RUN apk add openssl
+COPY .env ./ 
 EXPOSE 8080
 CMD ["node", "tp2.js"]
