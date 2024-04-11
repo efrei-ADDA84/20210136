@@ -2,7 +2,7 @@ FROM node:alpine3.19
 WORKDIR /weather-docker
 COPY . .
 RUN npm install
-RUN apk add --no-cache tar=6.2.1-r0
+RUN apk add --no-cache tar
 RUN apk update && apk upgrade
 RUN apk add openssl
 EXPOSE 8080
