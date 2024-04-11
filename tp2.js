@@ -7,7 +7,7 @@ const PORT = 8080;
 const API_KEY = process.env.API_KEY;
 
 app.get('/', (req, res) => {
-    res.send('Welcome to Weather API!');
+    res.send('Welcome to the Weather API!');
 });
 
 app.get('/weather', async (req, res) => {
