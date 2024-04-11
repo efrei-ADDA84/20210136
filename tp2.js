@@ -11,12 +11,11 @@ app.get('/', (req, res) => {
 
 app.get('/weather', async (req, res) => {
     const { lat, lon } = req.query;
-    const API_KEY = process.env.API_KEY;
+    const API_KEY = process.env.apikey;
 
     if (!lat || !lon || !API_KEY) {
-        return res.status(400).send('Latitude and longitude are required.');
+        return res.status(400).send(`Latitude, longitude, and API key are required. API Key: ${API_KEY}`);
     }
-    console.log("API key:", API_KEY);
     try {
         const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
             params: {
