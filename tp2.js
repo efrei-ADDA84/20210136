@@ -15,7 +15,7 @@ app.get('/weather', async (req, res) => {
     console.log("API_KEY:", process.env.API_KEY);
 
     if (!lat || !lon || !API_KEY) {
-        console.log("API_KEY:", process.env.API_KEY);
+        
         return res.status(400).send(`Latitude, longitude, and API Key are required.`);
     }
     try {
