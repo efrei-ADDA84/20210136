@@ -9,11 +9,14 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Weather API!');
 });
 
-app.get('/weather', async (req, res) => {
-    const { lat, lon, apiKey } = req.query;
 
-    if (!lat || !lon || !apiKey) {
-        return res.status(400).send('Latitude, longitude, and API Key are required');
+const API_KEY = process.env.API_KEY;
+
+app.get('/weather', async (req, res) => {
+    const { lat, lon } = req.query;
+
+    if (!lat || !lon) {
+        return res.status(400).send('Latitude and longitude are required');
     }
 
     try {
@@ -21,7 +24,7 @@ app.get('/weather', async (req, res) => {
             params: {
                 lat,
                 lon,
-                appid: apiKey
+                appid: API_KEY
             }
         });
         res.json(response.data);
