@@ -48,7 +48,7 @@ Dans le cadre de ce travail pratique, l'objectif était de créer un wrapper qui
 ## Étapes Réalisées
 
 
-### Développement du Wrapper : J'ai en premier développé un wrapper en Node.js qui utilise Axios pour interroger l'API openweathermap et afficher les données météorologiques.
+### Développement du Wrapper qui utilise Axios pour interroger l'API openweathermap et afficher les données météorologiques.
 
 ````javascript
 require('dotenv').config();
@@ -77,6 +77,7 @@ async function fetchWeatherData() {
 
 fetchWeatherData();
 ````
+
 Ce code Node.js commence par charger les variables d'environnement à partir du fichier .env pour obtenir la clé d'API et les coordonnées géographiques. 
 Ensuite, il utilise Axios pour effectuer une requête à l'API OpenWeather avec les coordonnées fournies, récupère les données météorologiques et les affiche dans la console.
 
