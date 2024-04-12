@@ -1,9 +1,9 @@
-name: Deploy to Azure Container Instance
+name: Deploy to Azure Container
 
 on:
   push:
     branches:
-      - Tp3
+      - TP3
 
 jobs:
   build-and-deploy:
@@ -28,7 +28,7 @@ jobs:
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.AZURE_CONTAINER_ID }}:${{ github.sha }}
 
     - name: Deploy to Azure Container Instance
-      uses: Azure/container-actions/container-instance-deploy@v1
+      uses: azure/container-actions/container-instance-deploy@main
       with:
         azure-container-name: ${{ secrets.AZURE_CONTAINER_ID }}
         azure-resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
