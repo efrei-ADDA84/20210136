@@ -65,13 +65,10 @@ const API_KEY = process.env.API_KEY;
 Cette partie définit la route principale de l'API pour récupérer les données météo en fonction des coordonnées géographiques fournies.
 
 ````Javascript
-// Route principale pour récupérer les données météo
 app.get('/', async (req, res) => {
     try {
         const { lat, lon } = req.query;
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-        // Traitement des données météo et construction de la réponse
-        // ...
         res.send(weatherOutput);
     } catch (error) {
         console.error('Error fetching weather data:', error);
