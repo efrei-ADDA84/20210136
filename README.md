@@ -95,10 +95,12 @@ app.get('/metrics', async (req, res) => {
     }
 });
 
-app.listen(() => {
-    console.log(`Server listening`);
+app.listen(8081, () => {
+    console.log(`Server listening on port 8081`);
 });
+
 ````
+
 
 # Dockerfile
 
@@ -130,7 +132,7 @@ CMD ["node", "Tp3.js"]
 Chaque job comprend plusieurs étapes, telles que la vérification du code, la connexion aux services cloud, la construction et le déploiement de l'image Docker.
 Le workflow GitHub Actions est divisé en deux jobs :
 
-- Job "build-and-push" pour construire et pousser l'image Docker vers Azure Container Registry.
+- Job "build-and-push" pour construire et pousser l'image Docker vers Azure Container Registry. L'utilisation de hadolint permet de détecter les erreurs et les best practices dans les fichiers 
 
 ````yml
 name: Build And Deploy in Azure
@@ -201,6 +203,25 @@ Job "deploy" pour déployer l'application sur Azure Container Instance.
         ports: 8081
 ````
 
+Ainsi, on peut voir le développement et déploiement du workflow sur Azure 
+
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/1978a250-1292-46c0-b464-8455900864b1)
+
+La commande suivante permet de renvoyer la météo de la ville correspondant aux latitudes et longitudes :
+
+````cmd
+curl "http://devops-20210136.francecentral.azurecontainer.io:8081/?lat=5.902785&lon=102.754478"
+````
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/ccc148bd-6abe-4402-b20f-fbc6e7f8c5e1)
+
+Finalement cette commande permet de voir le nombre de commandes traités grâce à la librairie Prometheus 
+
+````curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"````
+
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/de7f0150-790c-410d-8665-053e4dc44d10)
+
+
 Conclusion
-Ce TP3 a permis de mettre en pratique les principes de CI/CD en utilisant GitHub Actions pour automatiser la construction, la publication et le déploiement d'une application sur Azure. 
-L'utilisation de ces outils permet de garantir un processus de déploiement robuste et reproductible, tout en facilitant la gestion des environnements cloud.
+
+Ce TP3 a permis de mettre en pratique les principes de CI/CD en utilisant GitHub Actions pour automatiser la construction, la publication et le déploiement d'une application sur Azure. L'utilisation de ces outils permet de garantir un processus de déploiement robuste et reproductible, tout en facilitant la gestion des environnements cloud. 
+Ce TP3 illustre ainsi l'importance de l'automatisation et de l'intégration continue dans le contexte de DevOps, en permettant une livraison rapide et fiable des applications tout en garantissant leur qualité et leur disponibilité.
