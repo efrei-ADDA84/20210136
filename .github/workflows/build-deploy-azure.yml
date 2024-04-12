@@ -1,37 +1,62 @@
-name: Build and Deploy to Azure
+name: Build And Deploy in Azure
 
-on:
-  push:
-    branches:
-      - Tp3
-      
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+on: 
+  push: 
+    branches: 
+      - Tp3 
+
+jobs: 
+  build-and-push: 
+    runs-on: ubuntu-latest 
+    steps: 
+    - uses: actions/checkout@v2 
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Azure Container Registry 
+      uses: docker/login-action@v1
+      with: 
+        registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Build and push Docker image to Azure Container Registry
+      uses: docker/build-push-action@v2
+      with: 
+        context: . 
+        file: ./Dockerfile 
+        push: true 
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1  
+      env: 
+        API_KEY: ${{ secrets.API_KEY }} 
+
+    - name: Run Hadolint 
+      uses: hadolint/hadolint-action@v1.6.0
+      with:
+        dockerfile: Dockerfile
         
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  deploy: 
+    needs: build-and-push 
+    runs-on: ubuntu-latest 
+    steps: 
+    - name: Checkout code 
+      uses: actions/checkout@v2
 
-      - name: Login to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with: 
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build and push Docker image to ACR
-        run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:${{ github.sha }}
-
-      - name: Deploy to Azure Container Instance
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 10 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
+    - name: Deploy to Azure Container Instance
+      uses: azure/aci-deploy@v1
+      with: 
+        resource-group: ADDA84-CTP
+        dns-name-label: devops-20210136
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1
+        name: 20210136
+        location: 'francecentral' 
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }} 
+        registry-username: ${{ secrets.REGISTRY_USERNAME }} 
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }} 
+        secure-environment-variables: API_KEY=${{ secrets.API_KEY }} 
