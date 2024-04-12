@@ -1,8 +1,6 @@
 FROM node:alpine3.19
 WORKDIR /weather-docker
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
 
 COPY package*.json ./
 RUN npm install -g npm@10.5.2 && npm cache clean --force
@@ -18,6 +16,5 @@ COPY . .
 ARG Apikey
 ENV API_KEY=$Apikey
 
-USER appuser
 EXPOSE 8080
 CMD ["node", "tp2.js"]
