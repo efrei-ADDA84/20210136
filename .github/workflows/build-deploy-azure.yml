@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - Tp3
-
+      
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and push Docker image to ACR
         run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1 --build-arg Apikey=${{ secrets.API_KEY }}
+          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1
 
       - name: Deploy to Azure Container Instance
@@ -34,4 +34,4 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 1 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
+            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 10 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
