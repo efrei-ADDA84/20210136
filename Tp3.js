@@ -24,7 +24,6 @@ app.get('/', async (req, res) => {
         const temperature = weatherData.main.temp;
         const weatherOutput = `${cityName}: ${weatherDescription}. Temperature: ${temperature}°C.`;
 
-        
         counter.inc();
 
         res.send(weatherOutput);
@@ -45,8 +44,6 @@ app.get('/metrics', async (req, res) => {
     }
 });
 
-
-
-app.listen(() => {
-    console.log(`Server listening`);
+app.listen(8081, () => {
+    console.log(`Server listening on port 8081`);
 });
