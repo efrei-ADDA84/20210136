@@ -106,7 +106,6 @@ Le Dockerfile définit l'environnement nécessaire pour exécuter l'API météo
 Ce Dockerfile installe les dépendances nécessaires, expose le port 8081 utilisé par l'application, et définit la commande de démarrage
 
 ````Docker
-
 FROM node:alpine3.19
 WORKDIR /weather-docker
 
