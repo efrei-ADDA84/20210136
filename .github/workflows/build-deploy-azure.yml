@@ -34,4 +34,4 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 1 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
+            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 10 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
