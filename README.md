@@ -115,7 +115,6 @@ Ce Dockerfile utilise l'image officielle Node.js Alpine comme base. Il copie d'a
 1. La construction de l'image Docker localement à l'aide du Dockerfile se fait à travers la commande 
 
 ````docker
-
 docker build -t docker-image-weather .
 ````
 
@@ -155,7 +154,6 @@ docker run --env LAT="31.2504" --env LONG="-99.2506" --env API_KEY=**** fannyc13
 Finalement, l'utilisation de Trivy a permis de vérifier la présence de vulnérabilités :
 
 ````docker
-
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.18.3 fannyc13/weather-docker-repository:docker-image-weather
 ````
 
@@ -164,9 +162,8 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.18.
 Ici il n’y a donc aucun CVE
 
 
-## Conclusion
+# Conclusion
 
-# Importance pour DevOps
 
 La principale difficulté rencontrée a été la gestion des vulnérabilités, nécessitant une compréhension approfondie de chaque CVE et des méthodes pour les résoudre. 
 Cependant, malgré les défis rencontrés, ce TP a permis de comprendre le développement et le déploiement d'images sur Docker. Il a permis de mettre en lumière l'importance de l'automatisation et de la standardisation des processus de développement et de déploiement, ce ce qui permet d'accélérer le cycle de développement, améliorer la qualité du code et garantir des déploiements plus rapides et plus fiables.
