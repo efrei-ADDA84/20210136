@@ -1,38 +1,28 @@
-require('dotenv').config()
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config();
+
 const app = express();
+const port = 8080;
 
-
-console.log(process.env)
-const PORT = 8080;
 const API_KEY = process.env.API_KEY;
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the Weather API !');
-});
-
-app.get('/weather', async (req, res) => {
-    const { lat, lon } = req.query;
-
-    if (!lat || !lon || !API_KEY) {
-        return res.status(400).send(`Latitude, longitude are required.`);
-    }
+app.get('/', async (req, res) => {
     try {
-        const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
-            params: {
-                lat,
-                lon,
-                appid: API_KEY
-            }
-        });
-        res.json(response.data);
+        const { lat, lon } = req.query;
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+        const weatherData = response.data;
+        const cityName = weatherData.name;
+        const weatherDescription = weatherData.weather[0].description;
+        const temperature = weatherData.main.temp;
+        const weatherOutput = `${cityName}: ${weatherDescription}. Temperature: ${temperature}°C.`;
+        res.send(weatherOutput);
     } catch (error) {
-        console.error("Error fetching weather data:", error.message);
-        res.status(500).send("Error fetching weather data");
+        console.error('Error fetching weather data:', error);
+        res.status(500).send('Error fetching weather data');
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
 });

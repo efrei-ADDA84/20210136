@@ -9,10 +9,8 @@ RUN npm install express@4.19.2
 
 RUN apk update && apk upgrade && apk add --no-cache openssl=3.1.4-r6
 RUN apk add --no-cache tar=1.35-r2
-COPY .env .
-COPY . .
 
-ENV API_KEY=${Apikey}
+COPY . .
 
 USER appuser
 EXPOSE 8080
