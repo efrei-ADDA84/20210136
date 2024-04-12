@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure
+name: Deploy to Azure Container Instance
 
 on:
   push:
@@ -8,30 +8,32 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
 
-      - name: Login to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Install dependencies
+      run: npm install
 
-      - name: Build and push Docker image to ACR
-        run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1 --build-arg Apikey=${{ secrets.API_KEY }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/20210136:v1
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.AZURE_CONTAINER_ID }}:${{ github.sha }} .
+        docker login ${{ secrets.REGISTRY_LOGIN_SERVER }} -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.AZURE_CONTAINER_ID }}:${{ github.sha }}
 
-      - name: Deploy to Azure Container Instance
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az container create --resource-group ADDA84-CTP --name 20210136 --image efreidevops.azurecr.io/20210136:v1 --cpu 1 --memory 1 --registry-login-server efreidevops.azurecr.io --registry-username ${{ secrets.REGISTRY_USERNAME }} --registry-password ${{ secrets.REGISTRY_PASSWORD }} --dns-name-label devops-20210136 --location francecentral
+    - name: Deploy to Azure Container Instance
+      uses: Azure/container-actions/container-instance-deploy@v1
+      with:
+        azure-container-name: ${{ secrets.AZURE_CONTAINER_ID }}
+        azure-resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        azure-container-registry-name: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        azure-container-image-name: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.AZURE_CONTAINER_ID }}:${{ github.sha }}
+        location: francecentral
+        dns-name-label: devops-20210136
