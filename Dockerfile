@@ -17,4 +17,4 @@ ARG Apikey
 ENV API_KEY=$Apikey
 
 EXPOSE 8080
-CMD ["node", "tp2.js"]
+CMD ["node", "Tp3.js"]
