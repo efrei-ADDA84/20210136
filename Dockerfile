@@ -13,8 +13,5 @@ RUN apk add --no-cache tar=1.35-r2
 
 COPY . .
 
-ARG Apikey
-ENV API_KEY=$Apikey
-
 EXPOSE 8080
 CMD ["node", "Tp3.js"]
