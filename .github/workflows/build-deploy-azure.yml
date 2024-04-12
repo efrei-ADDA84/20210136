@@ -1,6 +1,6 @@
-name: CI to Azure CR # Nom du workflow GitHub Actions
+name: Build And Deploy in Azure
 
-on: # Déclencheur du workflow
+on: 
   push: 
     branches: 
       - Tp3 
