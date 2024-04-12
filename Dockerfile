@@ -7,7 +7,7 @@ RUN npm install -g npm@10.5.2 && npm cache clean --force
 
 
 RUN npm install express@4.19.2
-
+RUN npm install prom-client
 RUN apk update && apk upgrade && apk add --no-cache openssl=3.1.4-r6
 RUN apk add --no-cache tar=1.35-r2
 

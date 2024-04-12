@@ -5,8 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const port = 8080;
-
-const API_KEY = process.env.OPENWEATHER_API_KEY;
+const API_KEY = process.env.API_KEY;
 
 const counter = new prometheus.Counter({
     name: 'weather_requests_processed_total',
@@ -35,10 +34,18 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/metrics', (req, res) => {
-    res.set('Content-Type', prometheus.register.contentType);
-    res.end(prometheus.register.metrics());
+app.get('/metrics', async (req, res) => {
+    try {
+        const metrics = await prometheus.register.metrics();
+        res.set('Content-Type', prometheus.register.contentType);
+        res.end(metrics.toString());
+    } catch (error) {
+        console.error('Error fetching metrics:', error);
+        res.status(500).send('Error fetching metrics');
+    }
 });
+
+
 
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
