@@ -216,7 +216,9 @@ curl "http://devops-20210136.francecentral.azurecontainer.io:8081/?lat=5.902785&
 
 Finalement cette commande permet de voir le nombre de commandes traités grâce à la librairie Prometheus 
 
-````curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"````
+````cmd 
+curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"
+````
 
 ![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/de7f0150-790c-410d-8665-053e4dc44d10)
 
