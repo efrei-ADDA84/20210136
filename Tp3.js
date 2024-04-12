@@ -3,7 +3,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
-const port = 8080;
+
 
 const API_KEY = process.env.API_KEY;
 
@@ -24,5 +24,6 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+    console.log(`Server listening`);
+    console.log(process.env)
 });
