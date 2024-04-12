@@ -214,6 +214,11 @@ curl "http://devops-20210136.francecentral.azurecontainer.io:8081/?lat=5.902785&
 ````
 ![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/ccc148bd-6abe-4402-b20f-fbc6e7f8c5e1)
 
+Il est également possible d'avoir le contenu via une page web :
+
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/0f210e54-2a4d-4e2c-a93d-08daf41b842c)
+
+
 Finalement cette commande permet de voir le nombre de commandes traités grâce à la librairie Prometheus 
 
 ````cmd 
