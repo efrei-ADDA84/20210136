@@ -4,7 +4,7 @@ const prometheus = require('prom-client');
 require('dotenv').config();
 
 const app = express();
-const port = 8080;
+
 const API_KEY = process.env.API_KEY;
 
 const counter = new prometheus.Counter({
@@ -47,6 +47,6 @@ app.get('/metrics', async (req, res) => {
 
 
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+app.listen(() => {
+    console.log(`Server listening`);
 });
