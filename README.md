@@ -217,6 +217,7 @@ Il est également possible d'avoir le contenu via une page web :
 
 
 Finalement cette commande permet de voir le nombre de commandes traités grâce à la librairie Prometheus 
+(dans la partie 'weather_requests_processed_total)
 
 ````cmd 
 curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"
@@ -225,7 +226,7 @@ curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"
 ![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/de7f0150-790c-410d-8665-053e4dc44d10)
 
 
-Conclusion
+# Conclusion
 
 Ce TP3 a permis de mettre en pratique les principes de CI/CD en utilisant GitHub Actions pour automatiser la construction, la publication et le déploiement d'une application sur Azure. L'utilisation de ces outils permet de garantir un processus de déploiement robuste et reproductible, tout en facilitant la gestion des environnements cloud. 
 Ce TP3 illustre ainsi l'importance de l'automatisation et de l'intégration continue dans le contexte de DevOps, en permettant une livraison rapide et fiable des applications tout en garantissant leur qualité et leur disponibilité.
