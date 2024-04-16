@@ -44,62 +44,53 @@ Nous maintiendrons la même architecture que dans le TP1, en ajoutant le fichier
 
 - Secret du dépôt GitHub
 
-Ici, nous avons 3 secrets de dépôt permettant de contenir des informations sensibles correspondant aux identifiants DockerHub et à la clé d'accès secrète pour l'API OpenWeather.
+Ici, nous avons 2 secrets de dépôt permettant de contenir des informations sensibles correspondant aux identifiants DockerHub.
 
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/015c1fae-e6ea-4083-9262-1bae839fd81c)
 
-![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/37e4b056-97a7-4089-9ecc-72dbeb4f37a2)
+Pour la clé API_KEY, nous la mettrons dans un fichier .env.
 
 # Code
 
 Le code de l'API météo développé en utilisant Node.js :
 
 ```javascript
-// Importation des modules
-
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config();
 const app = express();
-require('dotenv').config()
 
-console.log(process.env)
-const PORT = 8080;
 const API_KEY = process.env.API_KEY;
 
-app.get('/', (req, res) => {
-    res.send('Bienvenue sur l'API Météo !');
-});
+
 ````
 
 On commence par importer les modules nécessaires, notamment Express pour la gestion des routes et Axios pour effectuer des requêtes HTTP. Il configure également le port sur lequel le serveur écoutera et récupère la clé d'API à partir des variables d'environnement.
 
 ```javascript
-app.get('/weather', async (req, res) => {
-    const { lat, lon } = req.query;
-
-    if (!lat || !lon || !API_KEY) {
-        return res.status(400).send(`Latitude, longitude sont requis.`);
-    }
+app.get('/', async (req, res) => {
     try {
-        const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
-            params: {
-                lat,
-                lon,
-                appid: API_KEY
-            }
-        });
-        res.json(response.data);
+        const { lat, lon } = req.query;
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+        const weatherData = response.data;
+        const cityName = weatherData.name;
+        const weatherDescription = weatherData.weather[0].description;
+        const temperature = weatherData.main.temp;
+        const weatherOutput = `${cityName}: ${weatherDescription}. Temperature: ${temperature}°C.`;
+
+        res.send(weatherOutput);
     } catch (error) {
-        console.error("Erreur lors de la récupération des données météorologiques:", error.message);
-        res.status(500).send("Erreur lors de la récupération des données météorologiques");
+        console.error('Error fetching weather data:', error);
+        res.status(500).send('Error fetching weather data');
     }
 });
 ````
-Ensuite, une route /weather est définie pour gérer les requêtes de données météorologiques. Elle vérifie d'abord si les coordonnées géographiques et la clé d'API sont fournies. Ensuite, elle utilise Axios pour interroger l'API OpenWeather avec les coordonnées fournies et renvoie les données météorologiques obtenues au format JSON.
+Ensuite, la route principale / est définie pour gérer les requêtes de données météorologiques. Elle vérifie d'abord si les coordonnées géographiques et la clé d'API sont fournies. Ensuite, elle utilise Axios pour interroger l'API OpenWeather avec les coordonnées fournies et renvoie les données météorologiques avec la ville, la description et la Température.
 
 ````javascript
-app.listen(PORT, () => {
-    console.log(`Le serveur écoute sur le port ${PORT}`);
-});
+app.listen(8080, () => {
+    console.log(`Server is running on port 8080`);
+  });
 ````
 Enfin, le serveur est démarré et écoute sur le port défini, avec un message de confirmation affiché dans la console.
 
@@ -112,26 +103,27 @@ FROM node:alpine3.19
 WORKDIR /weather-docker
 
 COPY package*.json ./
-RUN npm install -g npm@10.5.2 && npm cache clean --force
 
-RUN npm install express@4.19.2
-
-RUN apk update && apk upgrade && apk add --no-cache openssl=3.1.4-r6
-RUN apk add --no-cache tar=1.35-r2
+RUN npm install -g npm@10.5.2 && \
+    npm cache clean --force && \
+    npm install express@4.19.2 && \
+    npm install prom-client@15.1.1 && \
+    apk update && \
+    apk upgrade && \
+    apk add --no-cache openssl=3.1.4-r6 && \
+    apk add --no-cache tar=1.35-r2
 
 COPY . .
 
-ARG Apikey
-ENV API_KEY=$Apikey
-
 EXPOSE 8080
-CMD ["node", "tp2.js"]
+CMD ["node", "Tp2.js"]
 ````
 
 Ce Dockerfile utilise une image Node.js Alpine comme base. Il copie d'abord le fichier package.json pour installer les dépendances Node.js nécessaires, puis installe Express. 
 Ensuite, il met en place les dépendances nécessaires pour garantir le bon fonctionnement de l'application dans l'environnement Docker. Enfin, il expose le port 8080 sur lequel l'API écoute et définit la commande pour démarrer le serveur.
 
-Workflow
+# Workflow
+
 Le workflow GitHub utilisé pour la construction et la publication de l'image Docker :
 
 ````yaml
@@ -169,7 +161,7 @@ jobs:
 
       - name: Construire et pousser l'image Docker
         run: |
-          docker build -t fannyc13/tp2-image:weather-image . --build-arg Apikey=${{ secrets.API_KEY }}
+          docker build -t fannyc13/tp2-image:weather-image .
           docker push fannyc13/tp2-image:weather-image
 
 ````
@@ -177,7 +169,7 @@ Voici un aperçu du Run d'un Workflow :
 
 ![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/07423ac2-c845-4a48-9466-117fe515e1be)
 
-Ce workflow GitHub est déclenché à chaque push sur la branche tp2. Il vérifie d'abord le dépôt, puis utilise Hadolint pour vérifier la syntaxe du Dockerfile. Ensuite, il se connecte à Docker Hub en utilisant les identifiants fournis dans les secrets du dépôt. Enfin, il construit l'image Docker en utilisant le Dockerfile et pousse l'image construite sur DockerHub.
+Ce workflow GitHub est déclenché à chaque push sur la branche Tp2. Il vérifie d'abord le dépôt, puis utilise Hadolint pour vérifier la syntaxe du Dockerfile. Ensuite, il se connecte à Docker Hub en utilisant les identifiants fournis dans les secrets du dépôt. Enfin, il construit l'image Docker en utilisant le Dockerfile et pousse l'image construite sur DockerHub.
 
 # Bonus
 
@@ -190,35 +182,36 @@ En utilisant Trivy, on remarque qu'aucune vulnérabilité n'est présente :
 Finalement on peut run l'image :
 
 ````cmd
-docker run -p 8080:8080 fannyc13/tp2-image:weather-image
+docker run -p 8080:8080 --env API_KEY=*** fannyc13/tp2-image:weather-image
 ````
 
 Et lancer la commande :
 ````
-curl "http://localhost:8080/weather?lat=5.902785&lon=102.754175"
+curl "http://localhost:8080/?lat=5.902785&lon=102.754175"
 ````
 ````
 StatusCode        : 200                                                                                                                                             
 StatusDescription : OK                                                                                                                                              
-Content           : {"coord":{"lon":102.7542,"lat":5.9028},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"}],"base":"stations","main":{"temp":302.63,"feels_like":307.17,"temp_min":302.63,"...
+Content           : Jertih: overcast clouds. Temperature: 301.52°C.                                                                                                 
 RawContent        : HTTP/1.1 200 OK
                     Connection: keep-alive
                     Keep-Alive: timeout=5
-                    Content-Length: 501
-                    Content-Type: application/json; charset=utf-8
-                    Date: Fri, 12 Apr 2024 12:25:12 GMT
-                    ETag: W/"1f5-z4spuDBg9/lyuqhFh6...
+                    Content-Length: 48
+                    Content-Type: text/html; charset=utf-8
+                    Date: Tue, 16 Apr 2024 18:50:27 GMT
+                    ETag: W/"30-JqE6Ae78Lcsl2hvHgF8voNEWslo...
 Forms             : {}
-Headers           : {[Connection, keep-alive], [Keep-Alive, timeout=5], [Content-Length, 501], [Content-Type, application/json; charset=utf-8]...}
+Headers           : {[Connection, keep-alive], [Keep-Alive, timeout=5], [Content-Length, 48], [Content-Type, text/html; charset=utf-8]...}
 Images            : {}
 InputFields       : {}
 Links             : {}
 ParsedHtml        : mshtml.HTMLDocumentClass
-RawContentLength  : 501
+RawContentLength  : 48
 ````
 Sur une page web on obtient :
 
-![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/823cdc4e-94db-48bf-98cd-94cbf2c64db2)
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/e35b7395-1227-4a29-8ea7-8abd5407724d)
+
 
 # Conclusion 
 
