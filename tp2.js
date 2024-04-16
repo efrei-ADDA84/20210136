@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
-
 const app = express();
 
 const API_KEY = process.env.API_KEY;
