@@ -31,5 +31,5 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t fannyc13/tp2-docker-image:weather-image .
-          docker push fannyc13/tp2-docker-image:weather-image
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tp2-docker-image:weather-image .
+          docker push ${{ secrets.DOCKER_USERNAME }}/tp2-docker-image:weather-image
