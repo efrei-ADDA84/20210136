@@ -204,6 +204,10 @@ Ainsi, on peut voir le développement et déploiement du workflow sur Azure
 
 ![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/1978a250-1292-46c0-b464-8455900864b1)
 
+Voici le conteneur sur Azure :
+
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/b0945b3f-a510-4fc9-ae5f-1f16a714d141)
+
 La commande suivante permet de renvoyer la météo de la ville correspondant aux latitudes et longitudes :
 
 ````cmd
@@ -217,7 +221,7 @@ Il est également possible d'avoir le contenu via une page web :
 
 
 Finalement cette commande permet de voir le nombre de commandes traités grâce à la librairie Prometheus 
-(dans la partie 'weather_requests_processed_total)
+(dans la partie 'weather_requests_processed_total')
 
 ````cmd 
 curl "http://devops-20210136.francecentral.azurecontainer.io:8081/metrics"
