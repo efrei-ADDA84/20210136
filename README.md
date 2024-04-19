@@ -285,7 +285,7 @@ On commence par utiliser la commande qui permet d'initialiser le répertoire de 
 terraform init -upgrade
 ```
 
-``` tf
+``` cmd
 
 Initializing the backend...
 
@@ -319,7 +319,7 @@ terraform plan
 
 On obtient 
 
-```tf
+```cmd
 data.azurerm_resource_group.existing: Reading...
 data.azurerm_virtual_network.existing: Reading...
 data.azurerm_resource_group.existing: Read complete after 0s [id=/subscriptions/765266c6-9a23-4638-af32-dd1e32613047/resourceGroups/ADDA84-CTP]
@@ -344,7 +344,7 @@ terraform apply
 
 On obtient 
 
-```tf
+```cmd
 data.azurerm_virtual_network.existing: Reading...
 data.azurerm_resource_group.existing: Reading...
 data.azurerm_virtual_network.existing: Read complete after 0s [id=/subscriptions/765266c6-9a23-4638-af32-dd1e32613047/resourceGroups/ADDA84-CTP/providers/Microsoft.Network/virtualNetworks/network-tp4]
