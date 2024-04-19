@@ -437,8 +437,7 @@ azurerm_linux_virtual_machine.main: Creation complete after 18s [id=/subscriptio
 
 On peut ainsi voir la VM sur Azure
 
-![alt text](image-1.png)
-
+![image](https://github.com/efrei-ADDA84/20210136/assets/94389445/84b36191-3a4a-4452-bab5-fcdc773aedc6)
 
 ## Connection à la VM avec SSH
 
