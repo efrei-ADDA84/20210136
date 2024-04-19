@@ -37,19 +37,22 @@ Help : [Documentation Terraform Azure CLI](https://registry.terraform.io/provide
 - Aucune duplication de code (utilisation de variables)
 - Code Terraform correctement formaté (me donner la commande utilisée)
 
-
-
 ## Introduction
 Dans le cadre du TP4 de DevOps, l'objectif était de déployer une machine virtuelle Azure (VM) en utilisant Terraform pour automatiser le processus. Le déploiement comprend la création d'une VM Ubuntu 22.04 avec une adresse IP publique, l'installation de Docker au démarrage de la machine, et l'utilisation d'une clé SSH pour l'authentification.
-
 
 ## Réalisation
 
 - Terraform :
+  - Création des ressources Azure telles que le réseau, l'adresse IP publique, la clé SSH et la machine virtuelle.
+  - Utilisation de variables pour la personnalisation et la réutilisation du code.
+  - Formatage du code avec la commande `terraform fmt`.
 
 - Azure : 
+  - Utilisation de Azure CLI pour l'authentification.
+  - Création d'une machine virtuelle
 
 - Docker : 
+  - Installation de Docker sur la VM Ubuntu avec un script au démarrage.
 
 ## Prérequis : 
 
@@ -58,7 +61,7 @@ Pour ce TP, il était important d'installer AZ Cli et Terraform.
 ## Fichiers utilisés : 
 
 ### main.tf
-Ce fichier contient la configuration des ressources Azure à déployer, telles que le network, l'adresse IP publique, la clé SSH, et la VM elle-même. 
+Ce fichier contient la configuration des ressources Azure à déployer, telles que le network, l'adresse IP publique, la clé SSH et la VM elle-même. 
 
 ```tf
 data "azurerm_virtual_network" "existing" {
@@ -442,7 +445,6 @@ On peut ainsi voir la VM sur Azure
 Pour se connecter à la VM on utilise la commande suivante : 
 
 ``` cmd
-
 ssh -i id_rsa devops@4.211.249.195 cat /etc/os-release
 ```
 
@@ -514,3 +516,7 @@ local_file.private_key: Destruction complete after 0s
 
 Destroy complete! Resources: 6 destroyed.
 ```
+
+## Conclusion
+
+En conclusion, ce TP4 de DevOps nous a permis d'explorer le déploiement automatisé de ressources Azure à l'aide de Terraform. En suivant les étapes définies, nous avons réussi à créer une machine virtuelle Ubuntu avec une adresse IP publique, installer Docker au démarrage, et nous connecter à la VM via SSH. L'utilisation de Terraform permet une approche cohérente et reproductible pour le déploiement. Ce TP a démontré les avantages de l'automatisation dans la gestion des infrastructures cloud, offrant une solution scalable et maintenable pour le déploiement sur le cloud.
