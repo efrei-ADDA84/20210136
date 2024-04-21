@@ -99,7 +99,7 @@ resource "azurerm_public_ip" "main" {
   allocation_method   = "Dynamic"
 }
 ```
-On génère ici la clé publique et privée ssh et on store dans des fichiers locauxces clés
+On génère ici la clé publique et privée ssh et on store dans des fichiers locaux ces clés
 
 ``` tf
 resource "tls_private_key" "ssh" {
